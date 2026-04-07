@@ -1,4 +1,6 @@
 #include <iostream>
+#include <stdexcept>
+#include <string>
 
 class SensorData{
     private:
@@ -44,13 +46,22 @@ class SensorData{
 
         }
 
+        // int GetData(int index){
+        //     if( index < size && index >= 0 ){
+        //         std::cout << "Data:" << data[index] << std::endl;
+        //         return data[index];
+        //     }
+        //     return -1;
+        // }
+
         int GetData(int index){
-            if( index < size && index >= 0 ){
-                std::cout << "Data:" << data[index] << std::endl;
-                return data[index];
+            if( index > size || index < 0 ){
+                throw std::out_of_range("ez igy nem jo haver!");
             }
-            return -1;
+            std::cout << "Data:" << data[index] << std::endl;
+            return data[index];
         }
+
 
         void SetData(int index, int value){
             if( index < size && index >= 0 ){
@@ -68,19 +79,18 @@ void ProcessData( SensorData TempData ){
 int main(){
     SensorData haliho(5);
 
-    haliho.SetData(0, 23);
-    haliho.GetData(0);
+    try{
+        haliho.GetData(2);
 
-    ProcessData(haliho);
+        haliho.GetData(6);
 
-    haliho.GetData(0);
+    }
 
-    SensorData csa(3);
+    catch(const std::out_of_range& e){
+        std::cout << "ennyi nincs!" << e.what() << std::endl;
+    }
 
-    csa = haliho;
-    haliho.SetData(4, 45);
-
-    csa.GetData(4);
+    std::cout << "sziasztok" << std::endl;
 
 
 
